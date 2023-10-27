@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxeph6x77fhib"]
+
+[ext_resource type="Script" path="res://scripts/battle.gd" id="1_r1yg3"]
+[ext_resource type="Texture2D" uid="uid://d0ibdg5jwm035" path="res://sprites/feudylevel.png" id="2_tmrif"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3d3n7"]
+font_size = 21
+
+[node name="battle" type="Node"]
+script = ExtResource("1_r1yg3")
+backgroundsprite = ExtResource("2_tmrif")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(128, 120)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 27.0
+value = 100.0
+
+[node name="bounds" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bounds"]
+polygon = PackedVector2Array(0, 240, 256, 240, 256, 80, 272, 80, 272, 256, -16, 256, -16, 80, 0, 80, 256, 80, 256, 104, 0, 104)
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = -15.5
+offset_right = 39.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -43.5
+offset_right = 20.0
+offset_bottom = -20.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "VICTORY!"
+label_settings = SubResource("LabelSettings_3d3n7")
+
+[connection signal="button_up" from="Button" to="." method="_on_continue_button_up"]

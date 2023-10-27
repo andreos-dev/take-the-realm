@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8ilmaq0f8mwp"]
+
+[ext_resource type="Script" path="res://battlegenerator.gd" id="1_k2dcn"]
+
+[node name="Battlegenerator" type="Node"]
+script = ExtResource("1_k2dcn")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -31.0
+offset_right = 101.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You got attacked!
+Prepare for battle"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = 10.5
+offset_right = 48.0
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start Battle"
+
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

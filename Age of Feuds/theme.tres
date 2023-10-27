@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b0eue3f7ishen"]
+
+[ext_resource type="FontFile" uid="uid://cfrjhrk765fmn" path="res://sprites/prstartk.ttf" id="1_28lw2"]
+
+[resource]
+default_font = ExtResource("1_28lw2")
+default_font_size = 7

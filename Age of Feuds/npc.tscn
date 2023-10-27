@@ -1,0 +1,186 @@
+[gd_scene load_steps=16 format=3 uid="uid://n3wxqrpfx7g8"]
+
+[ext_resource type="Script" path="res://scripts/npc.gd" id="1_6kcrg"]
+[ext_resource type="Texture2D" uid="uid://cntefsvtulkuj" path="res://sprites/ring.png" id="2_1gqlu"]
+[ext_resource type="Texture2D" uid="uid://b1n0vgfe3r6f8" path="res://sprites/feudy-Sheet.png" id="2_w1lwm"]
+[ext_resource type="Texture2D" uid="uid://dw01xcv4hh31u" path="res://sprites/swordy.png" id="3_dc4pr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mtqgp"]
+radius = 2.0
+height = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ulf37"]
+radius = 93.0591
+
+[sub_resource type="Animation" id="Animation_yj1kb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_kqqw7"]
+resource_name = "run"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_q1oln"]
+resource_name = "slash"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../swordy:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_iym7l"]
+resource_name = "stand"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xrn1r"]
+_data = {
+"RESET": SubResource("Animation_yj1kb"),
+"run": SubResource("Animation_kqqw7"),
+"slash": SubResource("Animation_q1oln"),
+"stand": SubResource("Animation_iym7l")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4f86r"]
+radius = 13.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2i7vs"]
+
+[sub_resource type="Curve" id="Curve_onuhg"]
+max_value = 100.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.770522, 70), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_aefl6"]
+offsets = PackedFloat32Array(0.0446735, 1)
+colors = PackedColorArray(0.862745, 0.862745, 0.862745, 1, 0, 0, 0, 0)
+
+[node name="npc" type="CharacterBody2D"]
+position = Vector2(3, 7)
+script = ExtResource("1_6kcrg")
+
+[node name="ringsprite" type="Sprite2D" parent="."]
+position = Vector2(1, 8)
+texture = ExtResource("2_1gqlu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_mtqgp")
+debug_color = Color(0.27451, 0.290196, 1, 1)
+
+[node name="SearchArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SearchArea2D"]
+shape = SubResource("CircleShape2D_ulf37")
+debug_color = Color(0.784314, 0.482353, 1, 0.0352941)
+
+[node name="AttackTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="SearchrestTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_w1lwm")
+hframes = 4
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xrn1r")
+}
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimationPlayer")
+libraries = {
+"": SubResource("AnimationLibrary_xrn1r")
+}
+
+[node name="swordy" type="Sprite2D" parent="."]
+z_index = 5
+texture = ExtResource("3_dc4pr")
+offset = Vector2(7, 0)
+
+[node name="closeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="closeArea"]
+shape = SubResource("CircleShape2D_4f86r")
+
+[node name="hatsprite" type="Sprite2D" parent="."]
+position = Vector2(0.5709, -6.52753)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_2i7vs")
+emitting = false
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+randomness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 94.67
+initial_velocity_max = 289.94
+angular_velocity_max = 85.21
+radial_accel_max = 30.91
+damping_min = 80.19
+damping_max = 100.05
+damping_curve = SubResource("Curve_onuhg")
+angle_min = -2.2
+angle_max = 292.1
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("Gradient_aefl6")
+hue_variation_min = -0.33
+hue_variation_max = 1.0
+
+[connection signal="body_entered" from="SearchArea2D" to="." method="_on_search_area_2d_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="SearchrestTimer" to="." method="_on_searchrest_timer_timeout"]
+[connection signal="body_entered" from="closeArea" to="." method="_on_closearea_body_entered"]

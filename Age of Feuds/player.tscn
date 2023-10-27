@@ -1,0 +1,138 @@
+[gd_scene load_steps=11 format=3 uid="uid://dvtky0isgvkge"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_20jj1"]
+[ext_resource type="Texture2D" uid="uid://b1n0vgfe3r6f8" path="res://sprites/feudy-Sheet.png" id="2_eqtjv"]
+[ext_resource type="Texture2D" uid="uid://dw01xcv4hh31u" path="res://sprites/swordy.png" id="3_6x8rh"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m32nm"]
+radius = 3.0
+height = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yrnh3"]
+radius = 13.0
+
+[sub_resource type="Animation" id="Animation_yj1kb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../swordy:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kqqw7"]
+resource_name = "run"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_q1oln"]
+resource_name = "slash"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../swordy:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 0.535887),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_iym7l"]
+resource_name = "stand"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xrn1r"]
+_data = {
+"RESET": SubResource("Animation_yj1kb"),
+"run": SubResource("Animation_kqqw7"),
+"slash": SubResource("Animation_q1oln"),
+"stand": SubResource("Animation_iym7l")
+}
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_20jj1")
+
+[node name="body" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_m32nm")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="AttackArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea2D"]
+shape = SubResource("CircleShape2D_yrnh3")
+
+[node name="attackTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_eqtjv")
+hframes = 4
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xrn1r")
+}
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimationPlayer")
+libraries = {
+"": SubResource("AnimationLibrary_xrn1r")
+}
+
+[node name="swordy" type="Sprite2D" parent="."]
+z_index = 5
+texture = ExtResource("3_6x8rh")
+offset = Vector2(7, 0)
+
+[connection signal="timeout" from="attackTimer" to="." method="_on_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

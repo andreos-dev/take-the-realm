@@ -1,0 +1,161 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmdgowr2ctwku"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_vuwg6"]
+[ext_resource type="Theme" uid="uid://b0eue3f7ishen" path="res://theme.tres" id="2_kobkt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8egg2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oaidc"]
+
+[node name="main_menu" type="Node"]
+script = ExtResource("1_vuwg6")
+metadata/_edit_horizontal_guides_ = [272.0]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_kobkt")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 31.0
+grow_horizontal = 2
+text = "Age of Feuds"
+label_settings = SubResource("LabelSettings_8egg2")
+
+[node name="loadButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load game"
+
+[node name="NewButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = 14.0
+offset_right = 32.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "New Game"
+
+[node name="SettingsButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = 44.0
+offset_right = 4.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+
+[node name="CreditsButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = 68.0
+offset_right = 4.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Credits"
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Credits" type="Panel" parent="Control/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("2_kobkt")
+
+[node name="Title" type="Label" parent="Control/PanelContainer/Credits"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "Credits:"
+label_settings = SubResource("LabelSettings_oaidc")
+
+[node name="Label" type="Label" parent="Control/PanelContainer/Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = -16.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Programming, Art, music, all by ANDRES BECHGER
+
+Made with Godot game engine, Aseprite and 1bitdragon
+
+Original game this was inspired on is Feudalism by Vitaly Zaborov. This was my favourite childhood flash game and this was made just for fun.
+
+Thanks to my friends, family and girlfriend for their support and playtesting
+
+Thank you for reading!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="close_creditsButton" type="Button" parent="Control/PanelContainer/Credits"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.5
+offset_top = -16.0
+offset_right = 7.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "close"
+
+[connection signal="button_up" from="Control/NewButton" to="." method="_on_new_button_button_up"]
+[connection signal="button_up" from="Control/CreditsButton" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="Control/PanelContainer/Credits/close_creditsButton" to="." method="_on_close_credits_button_button_up"]
