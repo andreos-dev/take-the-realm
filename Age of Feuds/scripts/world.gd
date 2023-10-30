@@ -130,12 +130,9 @@ func get_myarmy(): #BarracksPanel
 		var b = i.Blue
 		var health = i.health
 		var damage = i.damage
+		var sname = i.name
 		
-#		icon.self_modulate = Color8(r,g,b)
-		
-		var soldiername = String("Soldier "+ str(count))
-		
-		$CanvasLayer/UI/BarracksPanel/Container/myArmylist.add_item(soldiername, icon)
+		$CanvasLayer/UI/BarracksPanel/Container/myArmylist.add_item(sname, icon)
 		$CanvasLayer/UI/BarracksPanel/Container/myArmylist.set_item_icon_modulate(count - 1, Color8(r,g,b))
 
 func get_soldarmy(): #BarracksPanel
@@ -177,7 +174,7 @@ func _on_buy_button_up(): #BarracksPanel
 	if shoplist.is_anything_selected():
 		selecteditemindex = shoplist.get_selected_items()[0]
 	else:
-		printerr("no item was selected")
+		print("no item was selected")
 		return
 	
 	var itemtext = shoplist.get_item_text(selecteditemindex)
@@ -198,9 +195,10 @@ func _on_buy_button_up(): #BarracksPanel
 			"Blue": randi_range( 0, 250),
 			"health": health,
 			"damage": damage,
+			"name":Data.names.pick_random()
 		})
 	else:
-		printerr("SKEERE BOEF JE HEBT GEEN GELD")
+		print("NIET GENOEG GELD")
 	
 	get_myarmy()
 	get_soldarmy()

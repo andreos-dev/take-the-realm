@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr8hr7ptvoqxy"]
+
+[ext_resource type="Texture2D" uid="uid://c3q2l2afde84f" path="res://sprites/feudy_dead.png" id="1_6pot3"]
+[ext_resource type="PackedScene" uid="uid://dvtky0isgvkge" path="res://player.tscn" id="2_0tkao"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ng42v"]
+radius = 3.59716
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f7l7"]
+size = Vector2(4.51417, 4.96063)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ypmcg"]
+size = Vector2(1.80509, 4.31575)
+
+[node name="corpse" type="Node2D"]
+position = Vector2(0.0988121, 0.195587)
+
+[node name="head" type="RigidBody2D" parent="."]
+position = Vector2(0.918377, 0.743)
+gravity_scale = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="head"]
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(0, 0, 7, 7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head"]
+shape = SubResource("CircleShape2D_ng42v")
+
+[node name="torso" type="RigidBody2D" parent="."]
+position = Vector2(0.0992126, 6.44882)
+gravity_scale = 0.11
+
+[node name="Sprite2D" type="Sprite2D" parent="torso"]
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(9, 0, 5, 5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="torso"]
+position = Vector2(0.114147, 0.0319948)
+shape = SubResource("RectangleShape2D_3f7l7")
+
+[node name="arm" type="RigidBody2D" parent="."]
+position = Vector2(-2.70694, 6.1682)
+gravity_scale = 0.09
+
+[node name="Sprite2D" type="Sprite2D" parent="arm"]
+position = Vector2(5.75433, 0.0496063)
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(0, 8, 3, 5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arm"]
+position = Vector2(5.83404, 0.0816011)
+shape = SubResource("RectangleShape2D_ypmcg")
+
+[node name="arm2" type="RigidBody2D" parent="."]
+position = Vector2(-8.84384, 5.55134)
+gravity_scale = 0.08
+
+[node name="Sprite2D" type="Sprite2D" parent="arm2"]
+position = Vector2(5.75433, 0.0496063)
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(4, 8, 3, 5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arm2"]
+position = Vector2(5.83404, 0.0816011)
+shape = SubResource("RectangleShape2D_ypmcg")
+
+[node name="arm3" type="RigidBody2D" parent="."]
+position = Vector2(1.5998, 9.743)
+gravity_scale = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="arm3"]
+position = Vector2(0.186211, -0.0617561)
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(8, 8, 4, 5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arm3"]
+position = Vector2(0.0431981, -0.0854416)
+shape = SubResource("RectangleShape2D_ypmcg")
+
+[node name="arm4" type="RigidBody2D" parent="."]
+position = Vector2(-1.70108, 9.73245)
+gravity_scale = 0.9
+
+[node name="Sprite2D" type="Sprite2D" parent="arm4"]
+position = Vector2(0.186211, -0.0617561)
+texture = ExtResource("1_6pot3")
+region_enabled = true
+region_rect = Rect2(12, 6, 4, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arm4"]
+position = Vector2(0.0431981, -0.0854416)
+shape = SubResource("RectangleShape2D_ypmcg")
+
+[node name="player" parent="." instance=ExtResource("2_0tkao")]
+position = Vector2(24.1868, 6.48914)

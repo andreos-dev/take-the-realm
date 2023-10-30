@@ -8,6 +8,8 @@ var target = null
 
 var coolingdown = false
 var searchrest = false
+var corpse = preload("res://corpse.tscn")
+var hascorpse = false
 
 var red = 100
 var green = 100
@@ -177,16 +179,29 @@ func _on_searchrest_timer_timeout():
 
 func dead_state():
 	$AnimationPlayer.play("stand")
-	$Sprite2D.self_modulate = Color(255,0, 0, 75)
+	$Sprite2D.self_modulate = Color(255,0, 0, 0)
 	$CollisionShape2D.disabled = true
 	$SearchArea2D/CollisionShape2D.disabled = true
 
 	if asked == false && self.get_parent().has_method("i_died"):
 		self.get_parent().i_died(self)
 		asked = true
+		
+	
+#	if corpse.can_instantiate():
+#		var newcorpse = corpse.instantiate()
+#		newcorpse.position = self.position
+#
+#		if hascorpse == false:
+#			self.get_parent().add_child(newcorpse)
+#			hascorpse = true
+#	else:
+#		printerr("could not instantiate corpse scene! ")
+	
 
 func damaged(attack_damage, culprit):
 	$CollisionShape2D.debug_color = Color(255, 0, 0, 200) #red
+	$CPUParticles2D.color = Color8(red, green, blue, 255)
 	$CPUParticles2D.emitting = true
 	hp -= attack_damage
 	
@@ -223,7 +238,6 @@ func animate():
 	
 	if state == ATTACK or Input.is_action_just_pressed("attack") && coolingdown:
 		$AnimationPlayer2.play("slash")
-
 
 
 func _on_closearea_body_entered(body):

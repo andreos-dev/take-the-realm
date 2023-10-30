@@ -42,8 +42,9 @@ func _ready():
 				"Red": randi_range( 10, 240),
 				"Green":randi_range( 10, 240),
 				"Blue": randi_range( 10, 240),
-				"health": 100,
-				"damage": 10,
+				"health": randi_range( 50, 200),
+				"damage": randi_range( 5, 15),
+				"name": Data.names.pick_random()
 			}
 		
 			enemyarmy.append(newsoldier)

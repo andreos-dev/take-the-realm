@@ -2,6 +2,7 @@ extends Node
 #data presentented below is changed when loading in a safe file. Else these are the values when starting a new game
 var battle = "random"
 var victorious = false #resets after each battle
+var names = ["Odilo", "Arbogast", "Emmeran", "Takanishi", "Zakabe", "Okasugi", "Emeric", "Lancelot", "Gil", "Andrew", "Nicholas", "Joshua", "Shalem", "Noah", "Christian", "Linus", "Nathan", "Matthew", "Peres", "Demas", "Shiloh", "Daniel", "Edrei", "Lucas", "Adriel", "Elias", "Manoah", "Jacob", "Yakim", "Solomon", "Artemas", "Alian", "Gilbert"]
 
 var temp = {
 	"victorious": false,
@@ -16,6 +17,7 @@ var playerarmy = [
 		"Blue": 25,
 		"health": 50,
 		"damage": 10,
+		"name": names.pick_random(),
 },
 	{
 		"Red": 25,
@@ -23,14 +25,8 @@ var playerarmy = [
 		"Blue": 25,
 		"health": 50,
 		"damage": 10,
-},
-	{
-		"Red": 25,
-		"Green":180,
-		"Blue": 25,
-		"health": 50,
-		"damage": 10,
-},
+		"name": names.pick_random(),
+}
 
 ]
 
@@ -41,6 +37,7 @@ var enemyarmy = [
 		"Blue": 25,
 		"health": 100,
 		"damage": 20,
+		"name": names.pick_random()
 },
 	{
 		"Red": 200,
@@ -48,6 +45,7 @@ var enemyarmy = [
 		"Blue": 25,
 		"health": 100,
 		"damage": 20,
+		"name": names.pick_random()
 },
 	{
 		"Red": 180,
@@ -55,6 +53,7 @@ var enemyarmy = [
 		"Blue": 25,
 		"health": 100,
 		"damage": 20,
+		"name": names.pick_random()
 },
 
 ]
@@ -68,7 +67,6 @@ var player = {
 	"posy": 192,
 	"gold": 99000
 }
-
 
 
 var friendlycities = ["Nima"]

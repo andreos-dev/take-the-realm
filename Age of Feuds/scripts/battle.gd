@@ -12,6 +12,10 @@ var enemyarmy
 var friendlyarmy
 var spawnedenemies = []
 var spawnedfriends = []
+var overflow = false
+var overflowenemies = []
+var overflowfriends = []
+const spawnlimit = 10
 
 var earned_xp = 0
 var earned_gold = 0
@@ -29,29 +33,47 @@ func _ready():
 	enemyarmy = []
 	for i in Data.enemyarmy.size():
 		enemyarmy.append(Data.enemyarmy[i])
-		print("+NEW enemy: ", Data.enemyarmy[i])
-
+		#print("+NEW enemy: ", Data.enemyarmy[i])
+		if i > spawnlimit:
+			overflowenemies.append(Data.enemyarmy[i])
 	
 	for i in enemyarmy.size():
-		var newcolor = Color8(enemyarmy[i].Red, enemyarmy[i].Green, enemyarmy[i].Blue)
-		var newhealth = enemyarmy[i].health
-		var newdamage = enemyarmy[i].damage
-		
-		spawn_npc(false, newhealth, newdamage, newcolor)
+		if i <= spawnlimit:
+			var newcolor = Color8(enemyarmy[i].Red, enemyarmy[i].Green, enemyarmy[i].Blue)
+			var newhealth = enemyarmy[i].health
+			var newdamage = enemyarmy[i].damage
+			
+			spawn_npc(false, newhealth, newdamage, newcolor)
+			
 	
 	#the same but for friendly army!
 	friendlyarmy = []
 	for i in Data.playerarmy.size():
 		friendlyarmy.append(Data.playerarmy[i])
-		print("+NEW aly: ", Data.playerarmy[i])
+		#print("+NEW aly: ", Data.playerarmy[i])
+		if i > spawnlimit:
+			overflowfriends.append(Data.playerarmy[i])
 	
 	for i in friendlyarmy.size():
-		var newcolor = Color8(friendlyarmy[i].Red, friendlyarmy[i].Green, friendlyarmy[i].Blue)
-		var newhealth = friendlyarmy[i].health
-		var newdamage = friendlyarmy[i].damage
-		
-		spawn_npc(true, newhealth, newdamage, newcolor)
+		if i <= spawnlimit:
+			var newcolor = Color8(friendlyarmy[i].Red, friendlyarmy[i].Green, friendlyarmy[i].Blue)
+			var newhealth = friendlyarmy[i].health
+			var newdamage = friendlyarmy[i].damage
+			
+			spawn_npc(true, newhealth, newdamage, newcolor)
 	
+	#if there are too many enemies they can not be spawned at the same time!
+	#Here the npc above a certain limit are saved in an so called overflow array!
+	#overflow array enemies should be spawned when one dies
+	for i in friendlyarmy.size():
+		if i > spawnlimit:
+			overflow = true
+			overflowfriends.append(friendlyarmy[i])
+	
+	for i in enemyarmy.size():
+		if i > spawnlimit:
+			overflow = true
+			overflowenemies.append(enemyarmy[i])
 	
 	##health bar
 	playerhp = $player.hp
@@ -99,8 +121,6 @@ func spawn_npc(friendly, health, damage, color):
 			if spawnpos.y >= 200:
 				spawnpos.y = 120
 				spawnpos.x = spawnpos.x - 20
-
-
 		
 	elif friendly:
 		npc.add_to_group("team1")
@@ -117,10 +137,8 @@ func spawn_npc(friendly, health, damage, color):
 	npc.green = color.g8
 	npc.blue = color.b8
 
-	
 	npc.position = spawnpos 
 	
-
 	enemiespawned = enemiespawned + 1
 	friendsspawned = friendsspawned + 1
 	
@@ -184,24 +202,56 @@ func victory():
 
 
 func i_died(body):
-	print("my bro ", body.name, " died!")
+	#print("my bro ", body.name, " died!")
 	if body.is_in_group("team1"):
 		
 		for i in spawnedfriends.size():
 			if body.name == spawnedfriends[i-1].name:
-				friendlyarmy.pop_at(i-1)
+				if friendlyarmy[i-1].name:
+					$Control/console.add_text("\n" + str("-friend ", friendlyarmy[i-1].name, " died"))
+			friendlyarmy.pop_at(i-1)
+			
+		#spawn overflow friendly
+		if overflow:
+			spawnoverflow(true) #true for friends
 		
 	elif body.is_in_group("team2"):
 		
 		for i in spawnedenemies.size():
 			if body.name == spawnedenemies[i-1].name:
-				print("deleted: ", spawnedenemies[i-1].name)
+				#print("deleted: ", spawnedenemies[i-1].name)
+				$Control/console.add_text("\n" + str("-enemy ", Data.names.pick_random(), " died"))
 				spawnedenemies.pop_at(i-1)
-				
+		if overflow:
+			spawnoverflow(false)#false for enemies
 #	print("Data: friendlyarmy : ", spawnedfriends)
 #	print("Data: enemyarmy : ", spawnedenemies)
 
-
+func spawnoverflow(friendly):
+	if friendly:
+		if overflowfriends.size() > 0:
+			friendsspawned = randi_range(0,5)
+			randomize()
+			
+			var newcolor = Color8(overflowfriends[0].Red, overflowfriends[0].Green, overflowfriends[0].Blue)
+			var newhealth = overflowfriends[0].health
+			var newdamage = overflowfriends[0].damage
+		
+			spawn_npc(true, newhealth, newdamage, newcolor)
+			overflowfriends.pop_at(0)
+		
+	elif friendly == false:
+		if overflowenemies.size() > 0:
+			enemiespawned = randi_range(0,5)
+			randomize()
+			
+			var newcolor = Color8(overflowenemies[0].Red, overflowenemies[0].Green, overflowenemies[0].Blue)
+			var newhealth = overflowenemies[0].health
+			var newdamage = overflowenemies[0].damage
+		
+			spawn_npc(false, newhealth, newdamage, newcolor)
+			overflowenemies.pop_at(0)
+	
 
 func _on_continue_button_up():
 	if defeated:

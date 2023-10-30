@@ -13,6 +13,7 @@ func _on_new_button_button_up():
 			"Blue": randi_range( 0, 250),
 			"health": 100,
 			"damage": 10,
+			"name": Data.names.pick_random()
 	},
 		{
 			"Red": randi_range( 0, 250),
@@ -20,6 +21,7 @@ func _on_new_button_button_up():
 			"Blue": randi_range( 0, 250),
 			"health": 100,
 			"damage": 10,
+			"name": Data.names.pick_random()
 	},
 		{
 			"Red": randi_range( 0, 250),
@@ -27,6 +29,7 @@ func _on_new_button_button_up():
 			"Blue": randi_range( 0, 250),
 			"health": 100,
 			"damage": 10,
+			"name": Data.names.pick_random()
 	},
 		{
 			"Red": randi_range( 0, 250),
@@ -34,6 +37,7 @@ func _on_new_button_button_up():
 			"Blue": randi_range( 0, 250),
 			"health": 100,
 			"damage": 10,
+			"name": Data.names.pick_random()
 	},
 	]
 
@@ -44,6 +48,7 @@ func _on_new_button_button_up():
 			"Blue": randi_range( 0, 250),
 			"health": 100,
 			"damage": 10,
+			"name": Data.names.pick_random()
 		}
 	]
 
